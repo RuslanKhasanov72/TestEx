@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TestEx;
 using TestEx.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,17 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+	var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+	var pendingMigrations = dbContext.Database.GetPendingMigrations();
+
+	if (pendingMigrations.Any())
+	{
+		dbContext.Database.Migrate();
+	}
+	DbInitializer.Initialize(dbContext);
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

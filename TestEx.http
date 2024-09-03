@@ -1,6 +1,30 @@
-@TestEx_HostAddress = http://localhost:5248
+# Получение списка врачей с сортировкой и пагинацией
+GET http://localhost:5000/api/doctors?sortBy=fullname&ascending=true&page=1&pageSize=10
 
-GET {{TestEx_HostAddress}}/weatherforecast/
-Accept: application/json
+# Получение врача по ID
+GET http://localhost:5000/api/doctors/1
 
-###
+# Добавление нового врача
+POST http://localhost:5000/api/doctors
+Content-Type: application/json
+
+{
+    "FullName": "Доктор Айболит",
+    "RoomId": 1,
+    "SpecializationId": 1,
+    "DistrictId": 1
+}
+
+# Обновление врача по ID
+PUT http://localhost:5000/api/doctors/1
+Content-Type: application/json
+
+{
+    "FullName": "Доктор Айболит Обновленный",
+    "RoomId": 2,
+    "SpecializationId": 2,
+    "DistrictId": 1
+}
+
+# Удаление врача по ID
+DELETE http://localhost:5000/api/doctors/1
